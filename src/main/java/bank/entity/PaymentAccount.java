@@ -1,34 +1,28 @@
 package bank.entity;
 
-public class PaymentAccount extends User {
-    private Integer idPayAcc;
-    private Double amountPayAcc;
+import bank.entity.common.Account;
 
-    public PaymentAccount(User oldUser, Integer idPayAcc) {
-        super(oldUser);
-        this.setIdPayAcc(idPayAcc);
-        this.setAmountPayAcc(0.0);
+public class PaymentAccount extends Account {
+   private Double sum;
+
+    public PaymentAccount(Integer id, User user, Bank bank) {
+        super(id,user,bank);
+        this.setSum(0.0D);
     }
 
-    public PaymentAccount(PaymentAccount oldPayAcc) {
-        super(oldPayAcc);
-        this.setIdPayAcc(oldPayAcc.getIdPayAcc());
-        this.setAmountPayAcc(oldPayAcc.getAmountPayAcc());
+    @Override
+    public String toString() {
+        String str =  "Банк: " + bank.getName() +
+                "\nПользователь: " + user.getName().toString() +
+                "\nСумма денег: " + sum;
+        return str;
     }
 
-    public Integer getIdPayAcc() {
-        return idPayAcc;
+    public Double getSum() {
+        return sum;
     }
 
-    public void setIdPayAcc(Integer idPayAcc) {
-        this.idPayAcc = idPayAcc;
-    }
-
-    public Double getAmountPayAcc() {
-        return amountPayAcc;
-    }
-
-    public void setAmountPayAcc(Double amountPayAcc) {
-        this.amountPayAcc = amountPayAcc;
+    public void setSum(Double sum) {
+        this.sum = sum;
     }
 }

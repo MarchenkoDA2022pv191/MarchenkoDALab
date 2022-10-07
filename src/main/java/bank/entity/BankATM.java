@@ -1,74 +1,134 @@
 package bank.entity;
 
-import bank.entity.helpClass.StatusATM;
+import bank.utils.StatusATM;
 
-public class BankATM extends Employee {
-    private Integer idATM;
-    private String nameATM;
-    private int statusATM;
-    private Boolean workPayMoney;
-    private Boolean workDepositMoney;
-    private Double moneyATM;
+public class BankATM {
+    private Integer id;
+    private String name;
+    private BankOffice bankOffice;
+    private StatusATM status;
+    private Bank bank;
+    private  Employee employee;
+    private Boolean canPayMoney;
+    private Boolean canDepositMoney;
+    private Double money;
     private Double maintenanceCost;
 
-    public BankATM(Employee oldEmployee, Integer idATM, String nameATM, int status, Boolean workPayMoney,
-                   Boolean workDepositMoney, Double moneyATM, Double maintenanceCost) {
-        super(oldEmployee);
-        setIdATM(idATM);
-        setNameATM(nameATM);
-        setStatus(status);
-        setWorkPayMoney(workPayMoney);
-        setWorkDepositMoney(workDepositMoney);
-        setMoneyATM(moneyATM);
-        setMaintenanceCost(maintenanceCost);
+
+    public BankATM(Integer id, String name, StatusATM status, Boolean canPayMoney,
+                   Boolean canDepositMoney, Double maintenanceCost) {
+
+        this.id = id;
+        this.name = name;
+        this.status = status;
+        this.canPayMoney = canPayMoney;
+        this.canDepositMoney = canDepositMoney;
+        this.maintenanceCost = maintenanceCost;
+        this.bank = null;
+        this.employee = null;
+        this.money = 0.0D;
+        this.bankOffice = null;
     }
 
-    public Integer getIdATM() {
-        return idATM;
+    @Override
+    public String toString(){
+        String str =  "Название банкомата: " + name +
+                        "\nАдрес: " + bankOffice.getAddress() +
+                        "\nСтатус: ";
+        switch (status){
+            case Work-> str += "работает";
+            case NotWork-> str += "Не работает";
+            case NoMoney-> str += "Нет денег";
+        }
+        str += "\nОбслуживающий сотрудник: " + employee.getName().toString();
+        if (canPayMoney){
+            str += "\nРаботает на выдачу денег";
+        }
+        else{
+            str += "\nНе работает на выдачу денег";
+        }
+        if (canDepositMoney){
+            str += "\nМожно внести деньги";
+        }
+        else{
+            str += "\nНельзя внести деньги";
+        }
+        str += "\nДенежная сумма: " + money +
+                "\nСтоимость обслуживания: " + maintenanceCost;
+        return str;
     }
 
-    public void setIdATM(Integer idATM) {
-        this.idATM = idATM;
+
+    public Integer getId() {
+        return id;
     }
 
-    public String getNameATM() {
-        return nameATM;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setNameATM(String nameATM) {
-        this.nameATM = nameATM;
+    public String getName() {
+        return name;
     }
 
-    public int getStatus() {
-        return statusATM;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setStatus(int statusATM) {
-        this.statusATM = statusATM;
+    public BankOffice getBankOffice() {
+        return bankOffice;
     }
 
-    public Boolean getWorkPayMoney() {
-        return workPayMoney;
+    public void setBankOffice(BankOffice bankOffice) {
+        this.bankOffice = bankOffice;
     }
 
-    public void setWorkPayMoney(Boolean workPayMoney) {
-        this.workPayMoney = workPayMoney;
+    public StatusATM getStatus() {
+        return status;
     }
 
-    public Boolean getWorkDepositMoney() {
-        return workDepositMoney;
+    public void setStatus(StatusATM status) {
+        this.status = status;
     }
 
-    public void setWorkDepositMoney(Boolean workDepositMoney) {
-        this.workDepositMoney = workDepositMoney;
+    public Bank getBank() {
+        return bank;
     }
 
-    public Double getMoneyATM() {
-        return moneyATM;
+    public void setBank(Bank bank) {
+        this.bank = bank;
     }
 
-    public void setMoneyATM(Double moneyATM) {
-        this.moneyATM = moneyATM;
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Boolean getCanPayMoney() {
+        return canPayMoney;
+    }
+
+    public void setCanPayMoney(Boolean canPayMoney) {
+        this.canPayMoney = canPayMoney;
+    }
+
+    public Boolean getCanDepositMoney() {
+        return canDepositMoney;
+    }
+
+    public void setCanDepositMoney(Boolean canDepositMoney) {
+        this.canDepositMoney = canDepositMoney;
+    }
+
+    public Double getMoney() {
+        return money;
+    }
+
+    public void setMoney(Double money) {
+        this.money = money;
     }
 
     public Double getMaintenanceCost() {

@@ -2,22 +2,22 @@ package bank.entity;
 
 import java.util.Date;
 import java.util.Random;
-import bank.entity.helpClass.FullName;
 
-public class User extends Bank{
-    private Integer idUser;
-    private FullName fullNameUser;
-    private Date birthDayUser;
-    private String workUser;
+import bank.entity.common.Person;
+import bank.utils.FullName;
+
+public class User extends Person {
+    private String work;
     private Double monthSalary;
+
+    private Bank bank;
+    private CreditAccount creditAccount;
+    private PaymentAccount paymentAccount;
     private Integer creditRating;
 
-    public User(Bank oldBank, Integer idUser, FullName fullNameUser, Date birthDayUser, String workUser) {
-        super(oldBank);
-        this.setIdUser(idUser);
-        this.setFullNameUser(fullNameUser);
-        this.setBirthDayUser(birthDayUser);
-        this.setWorkUser(workUser);
+    public User(Integer id, FullName name, Date birthday, String work) {
+        super(id,name,birthday);
+        this.setWork(work);
         Random random = new Random();
         this.setMonthSalary(random.nextDouble(1, 10000));
         int creditRating = 0;
@@ -31,49 +31,50 @@ public class User extends Bank{
                 endRat += 1000;
             }
         }
-        this.setCreditRating(creditRating);
+        this.creditRating = creditRating;
+        this.bank = null;
+        this.paymentAccount =null;
+        this.creditAccount = null;
     }
 
-    public User(User oldUser) {
-        super(oldUser);
-        this.setIdUser(oldUser.getIdUser());
-        this.setFullNameUser(oldUser.getFullNameUser());
-        this.setBirthDayUser(oldUser.getBirthDayUser());
-        this.setWorkUser(oldUser.getWorkUser());
-        this.setMonthSalary(oldUser.getMonthSalary());
-        this.setCreditRating(oldUser.getCreditRating());
+
+    @Override
+    public String toString() {
+        String str =  "Имя: " + name.toString() +
+                "\nДата рождения: " + birthday +
+                "\nРабота: " + work +
+                "\nБанк: " + bank +
+                "\nЗарплата: " + monthSalary;
+        if (bank == null){
+            str += "\nБанк: пусто";
+        }
+        else {
+            str += "\nБанк: " + bank.getName();
+        }
+
+        if (creditAccount == null){
+            str += "\nКредитный аккаунт: пусто";
+        }
+        else {
+            str += "\nКредитный аккаунт: " + creditAccount.getId();
+        }
+
+        if (paymentAccount == null){
+            str += "\nПлатёжный аккаунт: пусто";
+        }
+        else {
+            str += "\nПлатёжный аккаунт: " + paymentAccount.getId();
+        }
+        str += "\nКредитный рейтинг: " + creditRating;
+        return str;
     }
 
-    public Integer getIdUser() {
-        return idUser;
+    public String getWork() {
+        return work;
     }
 
-    public void setIdUser(Integer idUser) {
-        this.idUser = idUser;
-    }
-
-    public FullName getFullNameUser() {
-        return fullNameUser;
-    }
-
-    public void setFullNameUser(FullName fullNameUser) {
-        this.fullNameUser = fullNameUser;
-    }
-
-    public Date getBirthDayUser() {
-        return birthDayUser;
-    }
-
-    public void setBirthDayUser(Date birthDayUser) {
-        this.birthDayUser = birthDayUser;
-    }
-
-    public String getWorkUser() {
-        return workUser;
-    }
-
-    public void setWorkUser(String workUser) {
-        this.workUser = workUser;
+    public void setWork(String work) {
+        this.work = work;
     }
 
     public Double getMonthSalary() {
@@ -82,6 +83,30 @@ public class User extends Bank{
 
     public void setMonthSalary(Double monthSalary) {
         this.monthSalary = monthSalary;
+    }
+
+    public Bank getBank() {
+        return bank;
+    }
+
+    public void setBank(Bank bank) {
+        this.bank = bank;
+    }
+
+    public CreditAccount getCreditAccount() {
+        return creditAccount;
+    }
+
+    public void setCreditAccount(CreditAccount creditAccount) {
+        this.creditAccount = creditAccount;
+    }
+
+    public PaymentAccount getPaymentAccount() {
+        return paymentAccount;
+    }
+
+    public void setPaymentAccount(PaymentAccount paymentAccount) {
+        this.paymentAccount = paymentAccount;
     }
 
     public Integer getCreditRating() {

@@ -1,50 +1,56 @@
 package bank.service.impl;
 
+import bank.entity.BankATM;
 import bank.entity.BankOffice;
 import bank.service.BankOfficeService;
 
+import java.util.Objects;
+
 public class BankOfficeServiceImpl implements BankOfficeService {
-    /*Добавление суммы денег в офис, и, соответственно, добавление суммы денег в банк,
-    которому принадлежит данный офис*/
+
     @Override
     public void addMoney(BankOffice office, Double sumMoney) {
-        Double sumBank = office.getMoneyBank();
-        Double sumOffice = office.getMoneyOffice();
-        office.setMoneyBank(sumBank + sumMoney);
-        office.setMoneyOffice(sumOffice + sumMoney);
+        Double sumBank = office.getBank().getMoney();
+        Double sumOffice = office.getMoney();
+        office.setMoney(sumOffice + sumMoney);
+        office.getBank().setMoney(sumBank + sumMoney);
     }
 
-    /*Вычитание суммы денег из офиса, и, соответственно, вычитание суммы денег из банка, которому принадлежит
-     * данный офис, с проверкой того, достаточно ли денег в офисе, чтобы их вычесть. Если не достаточно, то
-     * возвращается false, иначе true*/
+
     @Override
     public Boolean subtractMoney(BankOffice office, Double sumMoney) {
-        Double sumBank = office.getMoneyBank();
-        Double sumOffice = office.getMoneyOffice();
+        Double sumBank = office.getBank().getMoney();
+        Double sumOffice = office.getMoney();
         if (sumOffice < sumMoney)
             return Boolean.FALSE;
-        office.setMoneyBank(sumBank - sumMoney);
-        office.setMoneyOffice(sumOffice - sumMoney);
+        office.setMoney(sumOffice + sumMoney);
+        office.getBank().setMoney(sumBank + sumMoney);
         return Boolean.TRUE;
     }
 
-    /*Добавление нового банкомата в офис, и, соответственно, добавление нового банкомата в банк, которому
-     * принадлежит данный офис, с проверкой того, можно ли добавить в этот офис новый банкомат.
-     * Если нельзя достаточно, то возвращается false, иначе true*/
+
     @Override
-    public Boolean addATM(BankOffice office) {
-        if (!office.getMaySetATM())
+    public Boolean addATM(BankOffice office, BankATM bankATM) {
+        if (!office.getMaySetATM() || bankATM.getBank() != null)
             return Boolean.FALSE;
-        office.setCountATMOffice(office.getCountATMOffice() + 1);
-        office.setCountATMBank(office.getCountATMBank() + 1);
+        office.setCountATM(office.getCountATM() + 1);
+        office.getBank().setCountATM(office.getBank().getCountATM() + 1);
+
+        bankATM.setBankOffice(office);
+        bankATM.setBank(office.getBank());
+
         return Boolean.TRUE;
     }
 
-    /*Вычитание банкомата из офиса, и, соответственно, вычитание банкомата из банка, которому
-     * принадлежит данный офис*/
+
     @Override
-    public void subtractATM(BankOffice office) {
-        office.setCountATMOffice(office.getCountATMOffice() - 1);
-        office.setCountATMBank(office.getCountATMBank() - 1);
+    public Boolean subtractATM(BankOffice office, BankATM bankATM) {
+        if (!Objects.equals(bankATM.getBankOffice(),office))
+            return Boolean.FALSE;
+        office.setCountATM(office.getCountATM() - 1);
+        office.getBank().setCountATM(office.getBank().getCountATM() - 1);
+
+        bankATM.setBankOffice(null);
+        return true;
     }
 }

@@ -1,47 +1,62 @@
 package bank.entity;
 
+import bank.entity.common.Account;
+
+import java.time.LocalDate;
 import java.util.Date;
 
-public class CreditAccount extends PaymentAccount {
-    private Integer idCreditAcc;
-    private Date startDate;
-    private Date endDate;
+public class CreditAccount extends Account {
+    private LocalDate startDate;
+    private LocalDate endDate;
     private Integer countMonth;
-    private Double amountCreditAcc;
-    private Integer employeeId;
+    private Double amount;
+    private Double mountsPayment;
 
-    public CreditAccount(PaymentAccount oldPayAcc, Integer idCreditAcc, Date startDate, Date endDate, Integer countMonth,
-                         Double amountCreditAcc, Integer employeeId) {
-        super(oldPayAcc);
-        this.setIdCreditAcc(idCreditAcc);
-        this.setStartDate(startDate);
-        this.setEndDate(endDate);
-        this.setCountMonth(countMonth);
-        this.setAmountCreditAcc(amountCreditAcc);
-        this.setEmployeeId(employeeId);
+    private Double interestRate;
+    private Employee employee;
+    private PaymentAccount paymentAccount;
+
+    public CreditAccount(Integer id, User user, Bank bank, Employee employee, PaymentAccount paymentAccount,
+                         LocalDate startDate, Integer countMonth, Double amount ) {
+        super(id,user,bank);
+        this.startDate = startDate;
+        this.countMonth = countMonth;
+        this.endDate = startDate.plusMonths(this.countMonth);
+        this.amount = amount;
+        this.interestRate = bank.getInterestRate();
+        this.mountsPayment = (1+ interestRate/100)*amount/countMonth;
+        this.employee = employee;
+        this.paymentAccount = paymentAccount;
     }
 
-    public Integer getIdCreditAcc() {
-        return idCreditAcc;
+    @Override
+    public String toString() {
+        String str =  "Банк: " + bank.getName() +
+                "\nПользователь: " + user.getName().toString() +
+                "\nКоличество месяцев: " + countMonth +
+                "\nПромежутки: " + startDate.toString() + " - " + endDate.toString() +
+                "\nСумма кредита: " + amount +
+                "\nПроцентная ставка: " + interestRate + "%" +
+                "\nЕжемесячный платёж: " + countMonth +
+                "\nСотрудник, который выдал кредит: " + employee.getName().toString()+
+                "\nId платёжного счёта: " + paymentAccount.getId().toString();
+        return str;
     }
 
-    public void setIdCreditAcc(Integer idCreditAcc) {
-        this.idCreditAcc = idCreditAcc;
-    }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
@@ -53,19 +68,43 @@ public class CreditAccount extends PaymentAccount {
         this.countMonth = countMonth;
     }
 
-    public Double getAmountCreditAcc() {
-        return amountCreditAcc;
+    public Double getAmount() {
+        return amount;
     }
 
-    public void setAmountCreditAcc(Double amountCreditAcc) {
-        this.amountCreditAcc = amountCreditAcc;
+    public void setAmount(Double amount) {
+        this.amount = amount;
     }
 
-    public Integer getEmployeeId() {
-        return employeeId;
+    public Double getMountsPayment() {
+        return mountsPayment;
     }
 
-    public void setEmployeeId(Integer employeeId) {
-        this.employeeId = employeeId;
+    public void setMountsPayment(Double mountsPayment) {
+        this.mountsPayment = mountsPayment;
+    }
+
+    public Double getInterestRate() {
+        return interestRate;
+    }
+
+    public void setInterestRate(Double interestRate) {
+        this.interestRate = interestRate;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public PaymentAccount getPaymentAccount() {
+        return paymentAccount;
+    }
+
+    public void setPaymentAccount(PaymentAccount paymentAccount) {
+        this.paymentAccount = paymentAccount;
     }
 }
