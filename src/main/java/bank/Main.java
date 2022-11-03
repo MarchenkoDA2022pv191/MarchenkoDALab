@@ -6,23 +6,27 @@ import bank.utils.FullName;
 import bank.utils.StatusATM;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Main {
-    public static void main(String[] args) {
-        //Bank
-        Bank bank = new Bank(1, "bank_name");
-        BankServiceImpl bankService = new BankServiceImpl();
-        bankService.addMoney(bank,90000.0);
-        bankService.subtractMoney(bank,519.0);
+    /*public static void main(String[] args) {
+        ArrayList<Bank> banks = new ArrayList<Bank>();
+
+        for (int i = 0; i<5; i++){
+            banks.add(new Bank(i, String.format("bank_name%d",i)));
+            for (int j = 0; j<)
+        }
 
 
-        //Bank Office
-        BankOffice office = new BankOffice( 1, "office_name", "adress",true, 500.0);
+
+        //Bank Office1
+        BankOffice office = new BankOffice( 1, "office_name1", "adress",true, 500.0);
         BankOfficeServiceImpl bankOfficeService = new BankOfficeServiceImpl();
         office.setBank(bank);
-        bank.setCountOffice(bank.getCountOffice() + 1);
         bankOfficeService.addMoney(office, 1000.0);
+
+
 
         //BankAtm
         BankATM atm = new BankATM(1, "ATM_1", StatusATM.Work, Boolean.TRUE, Boolean.TRUE,
@@ -37,7 +41,7 @@ public class Main {
 
 
         //Employee
-        Employee employee = new Employee(1, new FullName("Ivan", "Sevor"),
+        Employee employee = new Employee(1,"Ivan", "Sevor",
                 new Date(19081917), bank, "job1", 10000.0, office );
         bank.setCountEmployees(bank.getCountEmployees() + 1);
         EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
@@ -46,7 +50,7 @@ public class Main {
 
         //User
         UserServiceImpl userService = new UserServiceImpl();
-        User user = new User( 1, new FullName("Seryy", "Ivanov"), new Date(10112000),
+        User user = new User( 1, "Seryy", "Ivanov", new Date(10112000),
                 "work_1");
         user.setBank(bank);
         bank.setCountClients(bank.getCountClients() + 1);
@@ -90,5 +94,5 @@ public class Main {
         System.out.println("\nПользователь:");
         System.out.println(user.toString());
     }
-
+*/
 }

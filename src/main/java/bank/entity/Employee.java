@@ -13,9 +13,9 @@ public class Employee extends Person {
     private Boolean canLend;
     private Double salary;
 
-    public Employee(Integer id, FullName name, Date birthday, Bank bank, String job, Double salary, BankOffice bankOffice ) {
+    public Employee(Integer id, String name, String surname, Date birthday, Bank bank, String job, Double salary, BankOffice bankOffice ) {
 
-        super(id,name,birthday);
+        super(id,name,surname,birthday);
         this.bank = bank;
         this.job = job;
         this.salary = salary;
@@ -26,7 +26,7 @@ public class Employee extends Person {
 
     @Override
     public String toString() {
-        String str =  "Имя: " + name.toString() +
+        String str =  "Имя: " + getFullName() +
                 "\nДата рождения: " + birthday +
                 "\nДолжность: " + job +
                 "\nБанк: " + bank.getName();

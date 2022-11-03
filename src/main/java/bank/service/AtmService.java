@@ -17,6 +17,8 @@ public interface AtmService {
      * нём деньги. Если он работает и в нём есть деньги, то деньги вычитаются и возвращается true, иначе false*/
     Boolean subtractMoney(BankATM bankATM, Double sumMoney);
 
+    
+
     /*Привязать банкомат к банку.*/
     //void linkBank(BankATM bankATM, Bank bank);
     /*Привязать банкомат к офису.*/

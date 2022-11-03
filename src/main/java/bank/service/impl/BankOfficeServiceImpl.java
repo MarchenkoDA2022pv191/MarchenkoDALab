@@ -4,6 +4,7 @@ import bank.entity.BankATM;
 import bank.entity.BankOffice;
 import bank.service.BankOfficeService;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class BankOfficeServiceImpl implements BankOfficeService {
@@ -31,26 +32,36 @@ public class BankOfficeServiceImpl implements BankOfficeService {
 
     @Override
     public Boolean addATM(BankOffice office, BankATM bankATM) {
-        if (!office.getMaySetATM() || bankATM.getBank() != null)
-            return Boolean.FALSE;
-        office.setCountATM(office.getCountATM() + 1);
-        office.getBank().setCountATM(office.getBank().getCountATM() + 1);
+        if (!office.getMaySetATM() || bankATM.getBankOffice() != null
+                || Objects.equals(bankATM.getBank(), office.getBank()) || bankATM.getBank() == null
+                || office.getBank() == null)
+            return false;
 
+        if (office.getBankATMS() == null) {
+            ArrayList<BankATM> array = new ArrayList<>();
+            array.add(bankATM);
+            office.setBankATMS(array);
+        }
+        else{
+            ArrayList<BankATM> array = office.getBankATMS();
+            array.add(bankATM);
+            office.setBankATMS(array);
+        }
         bankATM.setBankOffice(office);
-        bankATM.setBank(office.getBank());
-
-        return Boolean.TRUE;
+        return true;
     }
 
-
     @Override
-    public Boolean subtractATM(BankOffice office, BankATM bankATM) {
+    public Boolean deleteATM(BankOffice office, BankATM bankATM) {
         if (!Objects.equals(bankATM.getBankOffice(),office))
-            return Boolean.FALSE;
-        office.setCountATM(office.getCountATM() - 1);
-        office.getBank().setCountATM(office.getBank().getCountATM() - 1);
+            return false;
+        ArrayList<BankATM> array = office.getBankATMS();
+        array.remove(bankATM);
+        if (array.size() == 0)
+            office.setBankATMS(null);
+        else
+            office.setBankATMS(array);
 
-        bankATM.setBankOffice(null);
         return true;
     }
 }

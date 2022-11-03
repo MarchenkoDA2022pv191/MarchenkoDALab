@@ -32,7 +32,7 @@ public class CreditAccount extends Account {
     @Override
     public String toString() {
         String str =  "Банк: " + bank.getName() +
-                "\nПользователь: " + user.getName().toString() +
+                "\nПользователь: " + user.getFullName() +
                 "\nКоличество месяцев: " + countMonth +
                 "\nПромежутки: " + startDate.toString() + " - " + endDate.toString() +
                 "\nСумма кредита: " + amount +

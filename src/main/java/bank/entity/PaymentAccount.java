@@ -13,7 +13,7 @@ public class PaymentAccount extends Account {
     @Override
     public String toString() {
         String str =  "Банк: " + bank.getName() +
-                "\nПользователь: " + user.getName().toString() +
+                "\nПользователь: " + user.getFullName() +
                 "\nСумма денег: " + sum;
         return str;
     }

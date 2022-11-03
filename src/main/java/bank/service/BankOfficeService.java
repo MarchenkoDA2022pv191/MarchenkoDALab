@@ -20,5 +20,5 @@ public interface BankOfficeService {
 
     /*Вычитание банкомата из офиса, и, соответственно, вычитание банкомата из банка, которому
      * принадлежит данный офис, если указанный банкомат принадлежит офису*/
-    Boolean subtractATM(BankOffice office, BankATM bankATM);
+    Boolean deleteATM(BankOffice office, BankATM bankATM);
 }

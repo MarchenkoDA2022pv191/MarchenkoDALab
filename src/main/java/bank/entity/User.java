@@ -1,22 +1,22 @@
 package bank.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 
 import bank.entity.common.Person;
-import bank.utils.FullName;
 
 public class User extends Person {
     private String work;
     private Double monthSalary;
 
     private Bank bank;
-    private CreditAccount creditAccount;
-    private PaymentAccount paymentAccount;
+    private ArrayList<CreditAccount> creditAccounts;
+    private ArrayList<PaymentAccount> paymentAccounts;
     private Integer creditRating;
 
-    public User(Integer id, FullName name, Date birthday, String work) {
-        super(id,name,birthday);
+    public User(Integer id, String name, String surname, Date birthday, String work) {
+        super(id,name,surname,birthday);
         this.setWork(work);
         Random random = new Random();
         this.setMonthSalary(random.nextDouble(1, 10000));
@@ -33,14 +33,14 @@ public class User extends Person {
         }
         this.creditRating = creditRating;
         this.bank = null;
-        this.paymentAccount =null;
-        this.creditAccount = null;
+        this.paymentAccounts = null;
+        this.creditAccounts = null;
     }
 
 
     @Override
     public String toString() {
-        String str =  "Имя: " + name.toString() +
+        String str =  "Имя: " + getFullName() +
                 "\nДата рождения: " + birthday +
                 "\nРабота: " + work +
                 "\nБанк: " + bank +
@@ -52,18 +52,18 @@ public class User extends Person {
             str += "\nБанк: " + bank.getName();
         }
 
-        if (creditAccount == null){
+        if (getCreditAccounts() == null){
             str += "\nКредитный аккаунт: пусто";
         }
         else {
-            str += "\nКредитный аккаунт: " + creditAccount.getId();
+            str += "\nКоличество кредитных аккаунтов: " + getCreditAccounts().size();
         }
 
-        if (paymentAccount == null){
+        if (getPaymentAccounts() == null){
             str += "\nПлатёжный аккаунт: пусто";
         }
         else {
-            str += "\nПлатёжный аккаунт: " + paymentAccount.getId();
+            str += "\nоличество платёжных аккаунтов: " + getPaymentAccounts().size();
         }
         str += "\nКредитный рейтинг: " + creditRating;
         return str;
@@ -93,21 +93,7 @@ public class User extends Person {
         this.bank = bank;
     }
 
-    public CreditAccount getCreditAccount() {
-        return creditAccount;
-    }
 
-    public void setCreditAccount(CreditAccount creditAccount) {
-        this.creditAccount = creditAccount;
-    }
-
-    public PaymentAccount getPaymentAccount() {
-        return paymentAccount;
-    }
-
-    public void setPaymentAccount(PaymentAccount paymentAccount) {
-        this.paymentAccount = paymentAccount;
-    }
 
     public Integer getCreditRating() {
         return creditRating;
@@ -115,5 +101,21 @@ public class User extends Person {
 
     public void setCreditRating(Integer creditRating) {
         this.creditRating = creditRating;
+    }
+
+    public ArrayList<CreditAccount> getCreditAccounts() {
+        return creditAccounts;
+    }
+
+    public void setCreditAccounts(ArrayList<CreditAccount> creditAccounts) {
+        this.creditAccounts = creditAccounts;
+    }
+
+    public ArrayList<PaymentAccount> getPaymentAccounts() {
+        return paymentAccounts;
+    }
+
+    public void setPaymentAccounts(ArrayList<PaymentAccount> paymentAccounts) {
+        this.paymentAccounts = paymentAccounts;
     }
 }

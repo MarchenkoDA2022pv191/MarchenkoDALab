@@ -1,5 +1,7 @@
 package bank.entity;
 
+import java.util.ArrayList;
+
 public class BankOffice{
     private Integer id;
     private String name;
@@ -7,7 +9,7 @@ public class BankOffice{
     private String address;
     private Boolean status;
     private Boolean maySetATM;
-    private Integer countATM;
+    private ArrayList<BankATM> bankATMS;
     private Boolean mayApplyCredit;
     private Boolean mayWithdrawMoney;
     private Boolean mayDepositMoney;
@@ -22,7 +24,7 @@ public class BankOffice{
         this.address = address;
         this.status = status;
         this.maySetATM = true;
-        this.countATM = 0;
+        this.bankATMS = null;
         this.mayDepositMoney = true;
         this.mayApplyCredit = true;
         this.mayWithdrawMoney = true;
@@ -51,7 +53,7 @@ public class BankOffice{
         }
 
         if (maySetATM){
-            str += "\nКоличество банкоматов: " + countATM;
+            str += "\nКоличество банкоматов: " + bankATMS.size();
         }
 
         if (mayWithdrawMoney){
@@ -114,12 +116,12 @@ public class BankOffice{
         this.maySetATM = maySetATM;
     }
 
-    public Integer getCountATM() {
-        return countATM;
+    public ArrayList<BankATM> getBankATMS() {
+        return bankATMS;
     }
 
-    public void setCountATM(Integer countATM) {
-        this.countATM = countATM;
+    public void setBankATMS(ArrayList<BankATM> bankATMS) {
+        this.bankATMS = bankATMS;
     }
 
     public Boolean getMayApplyCredit() {

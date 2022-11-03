@@ -40,7 +40,7 @@ public class BankATM {
             case NotWork-> str += "Не работает";
             case NoMoney-> str += "Нет денег";
         }
-        str += "\nОбслуживающий сотрудник: " + employee.getName().toString();
+        str += "\nОбслуживающий сотрудник: " + employee.getFullName();
         if (canPayMoney){
             str += "\nРаботает на выдачу денег";
         }
