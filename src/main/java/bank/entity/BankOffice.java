@@ -10,6 +10,7 @@ public class BankOffice{
     private Boolean status;
     private Boolean maySetATM;
     private ArrayList<BankATM> bankATMS;
+    private ArrayList<Employee> employees;
     private Boolean mayApplyCredit;
     private Boolean mayWithdrawMoney;
     private Boolean mayDepositMoney;
@@ -18,13 +19,13 @@ public class BankOffice{
 
     public BankOffice( Integer id, String name, String address, Boolean status,
                        Double rentCost) {
-
         this.id = id;
         this.name = name;
         this.address = address;
         this.status = status;
         this.maySetATM = true;
         this.bankATMS = null;
+        this.employees = null;
         this.mayDepositMoney = true;
         this.mayApplyCredit = true;
         this.mayWithdrawMoney = true;
@@ -55,6 +56,8 @@ public class BankOffice{
         if (maySetATM){
             str += "\nКоличество банкоматов: " + bankATMS.size();
         }
+
+        str += "\nКоличество сотрудников: " + getEmployees().size();
 
         if (mayWithdrawMoney){
             str += "\nРаботает на выдачу денег";
@@ -170,5 +173,13 @@ public class BankOffice{
 
     public void setBank(Bank bank) {
         this.bank = bank;
+    }
+
+    public ArrayList<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(ArrayList<Employee> employees) {
+        this.employees = employees;
     }
 }

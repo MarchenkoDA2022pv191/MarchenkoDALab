@@ -10,18 +10,21 @@ public class Employee extends Person {
     private Bank bank;
     private Boolean distantWork;
     private BankOffice bankOffice;
+
+    private BankATM bankATM;
     private Boolean canLend;
     private Double salary;
 
-    public Employee(Integer id, String name, String surname, Date birthday, Bank bank, String job, Double salary, BankOffice bankOffice ) {
+    public Employee(Integer id, String name, String surname, Date birthday,  String job, Double salary ) {
 
         super(id,name,surname,birthday);
-        this.bank = bank;
+        this.bank = null;
         this.job = job;
         this.salary = salary;
         this.distantWork = true;
         this.canLend = true;
-        this.bankOffice= bankOffice;
+        this.bankOffice= null;
+        this.bankATM = null;
     }
 
     @Override
@@ -30,20 +33,21 @@ public class Employee extends Person {
                 "\nДата рождения: " + birthday +
                 "\nДолжность: " + job +
                 "\nБанк: " + bank.getName();
-        if (distantWork){
-            str += "\nРаботает в офисе";
+        if (!distantWork){
+            str += "\nРаботает в офисе " + bankOffice.getName();
+
+            if (canLend){
+                str += "\nМожет выдавать кредиты";
+            }
+            else{
+                str += "\nНе Может выдавать кредиты";
+            }
         }
         else{
             str += "\nРаботает удалённо";
         }
-        if (canLend){
-            str += "\nМожет выдавать кредиты";
-        }
-        else{
-            str += "\nНе Может выдавать кредиты";
-        }
-        str += "\nОфис: " + bankOffice.getName() +
-                "\nЗарплата: " + salary;
+
+        str += "\nЗарплата: " + salary;
 
         return str;
     }
@@ -94,5 +98,13 @@ public class Employee extends Person {
 
     public void setSalary(Double salary) {
         this.salary = salary;
+    }
+
+    public BankATM getBankATM() {
+        return bankATM;
+    }
+
+    public void setBankATM(BankATM bankATM) {
+        this.bankATM = bankATM;
     }
 }

@@ -1,7 +1,6 @@
 package bank.service.impl;
 
-import bank.entity.BankATM;
-import bank.entity.BankOffice;
+import bank.entity.*;
 import bank.service.BankOfficeService;
 
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ public class BankOfficeServiceImpl implements BankOfficeService {
         office.setMoney(sumOffice + sumMoney);
         office.getBank().setMoney(sumBank + sumMoney);
     }
-
 
     @Override
     public Boolean subtractMoney(BankOffice office, Double sumMoney) {
@@ -33,7 +31,7 @@ public class BankOfficeServiceImpl implements BankOfficeService {
     @Override
     public Boolean addATM(BankOffice office, BankATM bankATM) {
         if (!office.getMaySetATM() || bankATM.getBankOffice() != null
-                || Objects.equals(bankATM.getBank(), office.getBank()) || bankATM.getBank() == null
+                || !Objects.equals(bankATM.getBank(), office.getBank())
                 || office.getBank() == null)
             return false;
 
@@ -61,7 +59,48 @@ public class BankOfficeServiceImpl implements BankOfficeService {
             office.setBankATMS(null);
         else
             office.setBankATMS(array);
+        bankATM.setBankOffice(null);
+        return true;
+    }
 
+    @Override
+    public Boolean addEmployee(BankOffice office, Employee employee){
+        if (!employee.getDistantWork() || employee.getBankOffice() != null
+                || !Objects.equals(employee.getBank(), office.getBank()) || employee.getBank() == null )
+            return false;
+
+        EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
+        ArrayList<Employee> array;
+        if (office.getEmployees() == null) {
+            array = new ArrayList<>();
+            array.add(employee);
+        }
+        else{
+            array = office.getEmployees();
+            array.add(employee);
+        }
+        office.setEmployees(array);
+        employeeService.toOfficeWork(employee);
+        employee.setBankOffice(office);
+        return true;
+    }
+
+    @Override
+    public Boolean deleteEmployee(BankOffice office, Employee employee){
+
+        if (!Objects.equals(employee.getBankOffice(),office))
+            return false;
+
+        EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
+        ArrayList<Employee> array = office.getEmployees();
+        array.remove(employee);
+        if (array.size() == 0)
+            office.setBankATMS(null);
+        else
+            office.setEmployees(array);
+
+        employeeService.toDistantWork(employee);
+        employee.setBankOffice(null);
         return true;
     }
 }

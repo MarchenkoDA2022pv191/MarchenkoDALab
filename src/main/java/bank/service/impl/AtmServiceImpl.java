@@ -32,4 +32,16 @@ public class AtmServiceImpl implements AtmService {
         bankATM.getBank().setMoney( bankATM.getBank().getMoney() - sumMoney);
         return Boolean.TRUE;
     }
+
+    @Override
+    public void turnOnATM(BankATM bankATM){
+        bankATM.setCanDepositMoney(true);
+        bankATM.setCanPayMoney(true);
+    }
+
+    @Override
+    public void turnOffATM(BankATM bankATM){
+        bankATM.setCanDepositMoney(false);
+        bankATM.setCanPayMoney(false);
+    }
 }

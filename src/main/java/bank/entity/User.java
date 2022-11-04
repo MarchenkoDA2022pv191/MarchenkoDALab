@@ -10,7 +10,7 @@ public class User extends Person {
     private String work;
     private Double monthSalary;
 
-    private Bank bank;
+    private ArrayList<Bank> banks;
     private ArrayList<CreditAccount> creditAccounts;
     private ArrayList<PaymentAccount> paymentAccounts;
     private Integer creditRating;
@@ -32,7 +32,7 @@ public class User extends Person {
             }
         }
         this.creditRating = creditRating;
-        this.bank = null;
+        this.banks = null;
         this.paymentAccounts = null;
         this.creditAccounts = null;
     }
@@ -43,13 +43,12 @@ public class User extends Person {
         String str =  "Имя: " + getFullName() +
                 "\nДата рождения: " + birthday +
                 "\nРабота: " + work +
-                "\nБанк: " + bank +
                 "\nЗарплата: " + monthSalary;
-        if (bank == null){
+        if (banks == null){
             str += "\nБанк: пусто";
         }
         else {
-            str += "\nБанк: " + bank.getName();
+            str += "\nКол-во банков: " + banks.size();
         }
 
         if (getCreditAccounts() == null){
@@ -85,15 +84,13 @@ public class User extends Person {
         this.monthSalary = monthSalary;
     }
 
-    public Bank getBank() {
-        return bank;
+    public ArrayList<Bank> getBanks() {
+        return banks;
     }
 
-    public void setBank(Bank bank) {
-        this.bank = bank;
+    public void setBanks(ArrayList<Bank> banks) {
+        this.banks = banks;
     }
-
-
 
     public Integer getCreditRating() {
         return creditRating;

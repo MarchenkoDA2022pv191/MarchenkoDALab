@@ -12,6 +12,7 @@ public class CreditAccount extends Account {
     private Double amount;
     private Double mountsPayment;
 
+
     private Double interestRate;
     private Employee employee;
     private PaymentAccount paymentAccount;
@@ -31,7 +32,8 @@ public class CreditAccount extends Account {
 
     @Override
     public String toString() {
-        String str =  "Банк: " + bank.getName() +
+        String str = "id: " + id +
+                "\nБанк: " + bank.getName() +
                 "\nПользователь: " + user.getFullName() +
                 "\nКоличество месяцев: " + countMonth +
                 "\nПромежутки: " + startDate.toString() + " - " + endDate.toString() +

@@ -7,12 +7,13 @@ public class PaymentAccount extends Account {
 
     public PaymentAccount(Integer id, User user, Bank bank) {
         super(id,user,bank);
-        this.setSum(0.0D);
+        this.sum = 0.0D;
     }
 
     @Override
     public String toString() {
-        String str =  "Банк: " + bank.getName() +
+        String str = "id " + id +
+                "\nБанк: " + bank.getName() +
                 "\nПользователь: " + user.getFullName() +
                 "\nСумма денег: " + sum;
         return str;

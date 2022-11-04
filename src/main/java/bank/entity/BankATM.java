@@ -15,14 +15,13 @@ public class BankATM {
     private Double maintenanceCost;
 
 
-    public BankATM(Integer id, String name, StatusATM status, Boolean canPayMoney,
-                   Boolean canDepositMoney, Double maintenanceCost) {
+    public BankATM(Integer id, String name, StatusATM status, Double maintenanceCost) {
 
         this.id = id;
         this.name = name;
         this.status = status;
-        this.canPayMoney = canPayMoney;
-        this.canDepositMoney = canDepositMoney;
+        this.canPayMoney = false;
+        this.canDepositMoney = false;
         this.maintenanceCost = maintenanceCost;
         this.bank = null;
         this.employee = null;
@@ -32,9 +31,14 @@ public class BankATM {
 
     @Override
     public String toString(){
-        String str =  "Название банкомата: " + name +
-                        "\nАдрес: " + bankOffice.getAddress() +
-                        "\nСтатус: ";
+        String str =  "Название банкомата: " + name;
+        if (bankOffice != null)
+           str = "\nАдрес: " + bankOffice.getAddress();
+        else {
+            str += "Находится на складе банка.";
+            return str;
+        }
+        str += "\nСтатус: ";
         switch (status){
             case Work-> str += "работает";
             case NotWork-> str += "Не работает";

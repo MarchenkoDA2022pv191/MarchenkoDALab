@@ -1,8 +1,6 @@
 package bank.service.impl;
 
-import bank.entity.Bank;
-import bank.entity.BankATM;
-import bank.entity.BankOffice;
+import bank.entity.*;
 import bank.service.BankService;
 
 import java.util.ArrayList;
@@ -29,6 +27,7 @@ public class BankServiceImpl implements BankService {
         if (bankATM.getBank() != null || Objects.equals(bankATM.getBank(),bank))
             return false;
 
+
         if (bank.getBankATMS() == null) {
             ArrayList<BankATM> array =new ArrayList<BankATM>();
             array.add(bankATM);
@@ -51,7 +50,7 @@ public class BankServiceImpl implements BankService {
 
         BankOfficeServiceImpl bankOfficeService =new BankOfficeServiceImpl();
 
-        if (bank.getBankOffices() != null){
+        if (bankATM.getBankOffice() != null){
             ArrayList<BankOffice> bankOffices =bank.getBankOffices();
             bankOfficeService.deleteATM(bankOffices.get(bankOffices.indexOf(bankATM.getBankOffice())),bankATM);
             bank.setBankOffices(bankOffices);
@@ -64,24 +63,72 @@ public class BankServiceImpl implements BankService {
             bank.setBankATMS(bankATMS);
         else
             bank.setBankATMS(null);
+        bankATM.setBank(null);
+        return true;
+    }
+
+    @Override
+    public Boolean addEmployee(Bank bank, Employee employee){
+        if (employee.getBank() != null || Objects.equals(employee.getBank(),bank))
+            return false;
+
+        employee.setDistantWork(true);
+        ArrayList<Employee> array;
+        if (bank.getEmployees() == null) {
+            array =new ArrayList<>();
+            array.add(employee);
+        }
+        else{
+            array = bank.getEmployees();
+            array.add(employee);
+        }
+        bank.setEmployees(array);
+        employee.setBank(bank);
+        return true;
+    }
+
+    @Override
+    public Boolean deleteEmployee(Bank bank, Employee employee){
+        if (!Objects.equals(employee.getBank(),bank))
+            return false;
+
+        BankOfficeServiceImpl bankOfficeService =new BankOfficeServiceImpl();
+
+        if (!employee.getDistantWork()){
+            ArrayList<BankOffice> bankOffices =bank.getBankOffices();
+            bankOfficeService.deleteEmployee(bankOffices.get(bankOffices.indexOf(employee.getBankOffice())),employee);
+            bank.setBankOffices(bankOffices);
+        }
+
+        ArrayList<Employee> employees = bank.getEmployees();
+        employees.remove(employee);
+        if (employees.size() != 0)
+            bank.setEmployees(employees);
+        else
+            bank.setEmployees(null);
+        bank.getBankATMS().get(bank.getBankATMS().indexOf(employee.getBankATM())).setEmployee(null);
+        employee.setBankOffice(null);
+        employee.setBankATM(null);
+        employee.setBank(null);
         return true;
     }
 
     @Override
     public Boolean addOffice(Bank bank, BankOffice bankOffice){
-        if (bankOffice.getBank() != null || Objects.equals(bankOffice.getBank(),bank))
+        if (Objects.equals(bankOffice.getBank(),bank))
             return false;
 
+        ArrayList<BankOffice> array;
         if (bank.getBankOffices() == null) {
-            ArrayList<BankOffice> array =new ArrayList<>();
+            array =new ArrayList<>();
             array.add(bankOffice);
-            bank.setBankOffices(array);
         }
         else{
-            ArrayList<BankOffice> array = bank.getBankOffices();
+            array = bank.getBankOffices();
             array.add(bankOffice);
-            bank.setBankOffices(array);
         }
+        bank.setBankOffices(array);
+        bankOffice.setBank(bank);
         return true;
     }
 
@@ -90,8 +137,100 @@ public class BankServiceImpl implements BankService {
         if (!Objects.equals(bankOffice.getBank(),bank))
             return false;
 
+        BankOfficeServiceImpl bankOfficeService =new BankOfficeServiceImpl();
         ArrayList<BankATM> bankATMS = bankOffice.getBankATMS();
+        bankATMS.forEach( bankATM -> {
+            bankOfficeService.deleteATM(bankOffice,bankATM);
+        });
+
+        ArrayList<Employee> employees = bankOffice.getEmployees();
+        employees.forEach(employee -> {
+            bankOfficeService.deleteEmployee(bankOffice,employee);
+        });
+
+        ArrayList<BankOffice> bankOffices = bank.getBankOffices();
+        bankOffices.remove(bankOffice);
+        if (bankOffices.size() == 0)
+            bank.setBankOffices(null);
+        else
+            bank.setBankOffices(bankOffices);
+        bankOffice.setBank(null);
+        return true;
+    }
+
+    @Override
+    public Boolean addUser(Bank bank, User user){
+        if (bank.getClients()!= null && bank.getClients().contains(user))
+            return false;
+        ArrayList<User> bankArray;
+        if (bank.getClients() == null) {
+            bankArray =new ArrayList<>();
+            bankArray.add(user);
+        }
+        else{
+            bankArray = bank.getClients();
+            bankArray.add(user);
+        }
+        bank.setClients(bankArray);
+
+
+        ArrayList<Bank> userArray;
+        if (user.getBanks() == null) {
+            userArray =new ArrayList<>();
+        }
+        else{
+            userArray = user.getBanks();
+        }
+        userArray.add(bank);
+        user.setBanks(userArray);
+        return true;
+    }
+
+    @Override
+    public  Boolean deleteUser(Bank bank, User user){
+
+        ArrayList<User> users = bank.getClients();
+        users.remove(user);
+
+        if (users.size() == 0)
+            bank.setClients(null);
+        else
+            bank.setClients(users);
 
         return true;
+    }
+
+    @Override
+    public String getInfo(Bank bank){
+        String res = "";
+
+        res += bank.toString();
+
+        res += "\n\nИнформация об офисах:\n";
+
+        for (BankOffice bankOffice: bank.getBankOffices()){
+            res += bankOffice.toString();
+            res += "\n\n";
+        }
+
+        res += "\n\nИнформация о банкоматах:\n";
+
+        for (BankATM bankATM: bank.getBankATMS()){
+            res += bankATM.toString();
+            res += "\n\n";
+        }
+
+        res += "\nИнформация о сотрудниках:\n";
+        for (Employee employee: bank.getEmployees()){
+            res += employee.toString();
+            res += "\n\n";
+        }
+
+        res += "\nИнформация о клиетах:\n";
+        for (User user: bank.getClients()){
+            res += user.toString();
+            res += "\n\n";
+        }
+        return res;
     }
 }

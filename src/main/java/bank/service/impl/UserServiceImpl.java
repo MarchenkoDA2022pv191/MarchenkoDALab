@@ -1,7 +1,10 @@
 package bank.service.impl;
 
-import bank.entity.User;
+import bank.entity.*;
 import bank.service.UserService;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class UserServiceImpl implements UserService {
 
@@ -21,5 +24,27 @@ public class UserServiceImpl implements UserService {
             }
         }
         user.setCreditRating(creditRating);
+    }
+
+    @Override
+    public String getInfo(User user){
+        String res = "";
+
+        res += user.toString();
+
+        res += "\n\nИнформация о платёжных счётах:\n";
+        for (PaymentAccount paymentAccount: user.getPaymentAccounts()){
+            res += paymentAccount.toString();
+            res += "\n\n";
+        }
+
+        res += "\n\nИнформация о кредитных счётах:\n";
+        for (CreditAccount creditAccount: user.getCreditAccounts()){
+            res += creditAccount.toString();
+            res += "\n\n";
+        }
+
+
+        return res;
     }
 }
