@@ -11,6 +11,4 @@ public interface UserService {
 
     String getInfo(User user);
 
-    Boolean applyForLoan(ArrayList<Bank> banks, User user, Double loanSum, LocalDate startDate,
-                                Integer countMonth, Integer newId);
 }
