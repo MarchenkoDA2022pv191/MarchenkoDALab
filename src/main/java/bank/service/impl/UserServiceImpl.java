@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
     public Boolean applyForLoan(ArrayList<Bank> banks, User user, Double loanSum, LocalDate startDate,
                                 Integer countMonth, Integer newId) {
 
-        try {
+       /* try {
             PaymentAccountService payAcc = new PaymentAccountServiceImpl();
             CreditAccountService creditAcc = new CreditAccountServiceImpl();
             ArrayList<Bank> banksWithMoney = new ArrayList<>();
@@ -183,7 +183,7 @@ public class UserServiceImpl implements UserService {
         } catch (NoBankMoneyException e) {
             e.printStackTrace();
             return false;
-        }
+        }*/
         return true;
     }
 }
