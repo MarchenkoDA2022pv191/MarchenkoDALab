@@ -85,6 +85,7 @@ public class Main {
         ArrayList<Bank> banks = new ArrayList<>();
         ArrayList<User> users = new ArrayList<>();
         BankService bankService = new BankServiceImpl();
+        AtmService atmService = new AtmServiceImpl();
         BankOfficeService bankOfficeService = new BankOfficeServiceImpl();
         EmployeeService employeeService = new EmployeeServiceImpl();
         CreditAccountService creditAccountService = new CreditAccountServiceImpl();
@@ -100,6 +101,8 @@ public class Main {
                         StatusATM.Work, 500.0));
 
                 bankOfficeService.addATM(banks.get(i).getBankOffices().get(j), banks.get(i).getBankATMS().get(j));
+                atmService.addMoney(banks.get(i).getBankATMS().get(j), 2000.0);
+
                 for (int k = 0; k < 5; k++) {
                     Employee employee = new Employee(5 * (j + 3 * i) + k, String.format("Ivan%d", 5 * (j + 3 * i) + k),
                             String.format("Serov%d", 5 * (j + 3 * i) + k), new Date(19081917), String.format("work%d", k), (double) 500 * k);
@@ -206,6 +209,7 @@ public class Main {
 
         System.out.println("Пытаемся открыть кредит");
         creditAccountService.openCredit(1, choseUser, choseOffice, choseEmployee, LocalDate.now(), month, (double)amount );
+        System.out.println("Успех");
     }
 
     public static void main(String[] args) {

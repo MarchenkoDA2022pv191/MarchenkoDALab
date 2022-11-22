@@ -43,14 +43,14 @@ public class CreditAccountServiceImpl implements CreditAccountService {
                 throw new CreditExtension("Попытка получить кредит", "Выбранный сотрудник не выдаёт кредит");
             if (user.getCreditRating() < 500 && bankOffice.getBank().getInterestRate() > 50)
                 throw new CreditExtension("Попытка получить кредит", "Клиенту отказано в выдаче кредита");
-            if (checkCreditAcc(user, bankOffice.getBank()) != -1)
+            if (user.getCreditAccounts()!=null && checkCreditAcc(user, bankOffice.getBank()) != -1)
                 throw new CreditExtension("Попытка получить кредит", "У клиента уже есть кредит в этом банке");
 
             for (BankATM bankATM : bankOffice.getBankATMS()) {
                 if (bankATM.getStatus() == StatusATM.Work && bankATM.getMoney() >= amount) {
                     ArrayList<CreditAccount> creditAccounts;
                     CreditAccount creditAccount;
-                    if (checkPaymentAcc(user, bankOffice.getBank()) >= 0) {
+                    if (user.getCreditAccounts()!=null && checkPaymentAcc(user, bankOffice.getBank()) >= 0) {
                         creditAccount = new CreditAccount(id, user, bankOffice.getBank(), employee,
                                 user.getPaymentAccounts().get(checkPaymentAcc(user, bankOffice.getBank())), startDate, countMonth, amount);
                     } else {
