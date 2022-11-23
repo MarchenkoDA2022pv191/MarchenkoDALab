@@ -9,6 +9,7 @@ import bank.utils.StatusATM;
 import java.awt.dnd.DragGestureEvent;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -131,9 +132,12 @@ public class Main {
             }
         }
 
+
+        banks.sort(new BankComparatorImpl());
+        Collections.reverse(banks);
         ArrayList<Double> criteria = getCritetiaForBanks(banks);
-        System.out.println("Введите id банка из представленных на экране. Ниже информации о каждом банке представлен критерий. " +
-                "Чем больше этот критерий, тем лучше этот банк для взятия кредита");
+
+        System.out.println("Введите id банка из представленных на экране. Банки расположены в порядке предпочтения от лучшего к худшему");
         for (int index = 0; index < banks.size(); index++) {
             System.out.println("Информация о банке "+ banks.get(index).getId().toString() + ":\n"+banks.get(index).toString());
             System.out.println("Критерий банка: "+criteria.get(index).toString()+ "\n");
